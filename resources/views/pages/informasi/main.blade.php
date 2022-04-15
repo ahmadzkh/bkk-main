@@ -10,7 +10,7 @@
     <!-- header -->
     <section id="header" class="bg-biru pb-5">
         @include('partials.navbar')
-        <div class="container header-wrap d-flex flex-column align-items-center justify-content-end" style="height: 300px">
+        <div class="container header-wrap d-flex flex-column align-items-center justify-content-end" style="height: 200px">
             <div class="row">
                 <div class="d-flex justify-content-center">
                     <div class="header-text">
@@ -24,7 +24,7 @@
                         <button type="submit" class="header-btn">
                             <i class="bi bi-search text-white px-3"></i>
                         </button>
-                        <input type="text" placeholder="Search.." class="header-input">
+                        <input type="text" placeholder="Search.." class="header-input" name="q" autocomplete="off">
                     </form>
                 </div>
             </div>
@@ -36,7 +36,7 @@
             <div class="row">
                 <div class="sub-title">Latest Information</div>
                 <div class="row g-3">
-                    @foreach ($news as $new)
+                    @foreach ($data_informasi as $new)
                     <div class="col-lg-4">
                         <a href="{{ route('bkk.informtiona.detail', $new->slug) }}" class="text-decoration-none">
                             <div class="box-info">

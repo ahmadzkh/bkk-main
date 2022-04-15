@@ -31,7 +31,7 @@
                 <div class="col box">
                     <div class="box-sampul">
                     </div>
-                    <img src="{{ asset($urlImg.$loker->mitra->foto) }}" alt="" class="profil-img img-fluid" draggable="false">
+                    <img src="{{ asset($urlImg . $loker->mitra->foto) }}" alt="mitra" class="profil-img img-fluid" draggable="false">
                     <div class="box-wrap pb-5">
                         <!-- nama -->
                         <div class="box-title">
@@ -88,7 +88,7 @@
                                 <p class="fw-bold mb-0">{{ $thp->nama }}</p>
                             </a>
                             @else
-                            <p class="fw-bold mb-0">{{ $tahap->nama }}</p>
+                            <p class="fw-bold mb-0">{{ $thp->nama }}</p>
                             @endif
                             @endauth
                             <p>Dilaksanankan pada {{ \Carbon\Carbon::parse($thp->tanggal_seleksi)->format('d F Y') }}</p>

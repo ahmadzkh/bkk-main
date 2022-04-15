@@ -9,7 +9,7 @@
 <!-- header -->
 <section id="header" class="bg-biru pb-5">
     @include('partials.navbar')
-    <div class="container header-wrap d-flex flex-column align-items-center justify-content-end" style="height: 300px">
+    <div class="container header-wrap d-flex flex-column align-items-center justify-content-end" style="height: 200px">
         <div class="row">
             <div class="col header-text">
                 Alumni
@@ -21,7 +21,7 @@
                     <button type="submit" class="header-btn">
                         <i class="bi bi-search text-white px-3"></i>
                     </button>
-                    <input type="text" placeholder="Search.." class="header-input">
+                    <input type="text" placeholder="Search.." class="header-input" name="q" autocomplete="off">
                 </form>
             </div>
         </div>

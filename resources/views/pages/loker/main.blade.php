@@ -59,11 +59,15 @@
             </a>
         </div>
         <div class="row g-3" data-masonry='{"percentPosition": true }'>
-            @foreach ($loker as $key => $lok)
+            @foreach ($loker as $lok)
             <div class="col-12 col-lg-4">
-                <a href="{{ route('bkk.loker.detail', $lok->id_lowongankerja) }}" class="text-decoration-none a-low">
+                <a href="{{ route('bkk.loker.detail', $lok->slug) }}" class="text-decoration-none a-low">
                     <div class="lowongan-box">
-                        <img src="{{asset('/assets/img/imp/'.$lok->mitra->foto)}}" alt="" class="img-fluid lowongan-logo">
+                        @if ($lok->mitra->foto === 'default-company.png')
+                        <img src="{{asset('/assets/img/imp/' . $lok->mitra->foto)}}" alt="mitra" class="img-fluid lowongan-logo">
+                        @else
+                        <img src="{{asset('/assets/img/mitra/' . $lok->mitra->foto)}}" alt="mitra" class="img-fluid lowongan-logo">
+                        @endif
                         <div class="judul-lowongan fw-bold text-biru mt-2 fs-4">
                             {{ $lok->title }}
                         </div>
@@ -76,19 +80,19 @@
                         <div class="lowongan-overview text-secondary">
                             <ul>
                                 @php
-                                    $no = 1 ;
+                                $no = 1 ;
                                 @endphp
                                 @foreach ($lok->persyaratan as $req)
-                                    @if ($no <= 3)
-                                        <li>{{ $req->text }}</li>
+                                @if ($no <= 3) <li>{{ $req->text }}</li>
                                     @endif
                                     @php $no++; @endphp
-                                @endforeach
+                                    @endforeach
                             </ul>
                         </div>
                         <div class="lowongan-footer">
                             <hr>
-                            <div class="date small text-black-50">{{ \Carbon\Carbon::parse($lok->created_at)->diffForHumans()}}</div>
+                            <div class="date small text-black-50">{{
+                                \Carbon\Carbon::parse($lok->created_at)->diffForHumans()}}</div>
                         </div>
                     </div>
                 </a>

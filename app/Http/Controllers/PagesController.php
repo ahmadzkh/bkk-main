@@ -26,6 +26,7 @@ use App\Models\SuratLamaranKerja;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
+use PhpParser\Node\Stmt\TraitUseAdaptation\Alias;
 
 class PagesController extends Controller
 {
@@ -80,9 +81,14 @@ class PagesController extends Controller
     /**
      * Halaman Alumni dan Search Alumni
      */
-    public function alumni()
+    public function alumni(Request $request)
     {
-        $data_alumni = $this->alumniModel->orderBy('nis', 'ASC')->orderBy('nama', 'ASC')->orderBy('angkatan_id', 'DESC')->get();
+        if ($request->has('q')) {
+            $data_alumni = Alumni::where('nama', 'LIKE', '%' . $request->q . '%')->get();
+        } else {
+            // $data_alumni = Alumni::orderBy('nis', 'ASC')->get();
+            $data_alumni = $this->alumniModel->orderBy('nis', 'ASC')->orderBy('nama', 'ASC')->orderBy('angkatan_id', 'DESC')->get();
+        }
 
         $id_alumni = $this->alumniModel->get('id_alumni');
 
@@ -173,19 +179,19 @@ class PagesController extends Controller
          */
         $nilai_model = new DataNilai();
 
-        $mtk_rapot= $nilai_model->mtk_rapot($decrypt);
-        $bing_rapot= $nilai_model->bing_rapot($decrypt);
-        $bindo_rapot= $nilai_model->bindo_rapot($decrypt);
-        $pkn_rapot= $nilai_model->pkn_rapot($decrypt);
-        $agama_rapot= $nilai_model->agama_rapot($decrypt);
-        $kejuruan_rapot= $nilai_model->kejuruan_rapot($decrypt);
+        $mtk_rapot = $nilai_model->mtk_rapot($decrypt);
+        $bing_rapot = $nilai_model->bing_rapot($decrypt);
+        $bindo_rapot = $nilai_model->bindo_rapot($decrypt);
+        $pkn_rapot = $nilai_model->pkn_rapot($decrypt);
+        $agama_rapot = $nilai_model->agama_rapot($decrypt);
+        $kejuruan_rapot = $nilai_model->kejuruan_rapot($decrypt);
 
-        $mtk_akhir= $nilai_model->mtk_akhir($decrypt);
-        $bing_akhir= $nilai_model->bing_akhir($decrypt);
-        $bindo_akhir= $nilai_model->bindo_akhir($decrypt);
-        $pkn_akhir= $nilai_model->pkn_akhir($decrypt);
-        $agama_akhir= $nilai_model->agama_akhir($decrypt);
-        $kejuruan_akhir= $nilai_model->kejuruan_akhir($decrypt);
+        $mtk_akhir = $nilai_model->mtk_akhir($decrypt);
+        $bing_akhir = $nilai_model->bing_akhir($decrypt);
+        $bindo_akhir = $nilai_model->bindo_akhir($decrypt);
+        $pkn_akhir = $nilai_model->pkn_akhir($decrypt);
+        $agama_akhir = $nilai_model->agama_akhir($decrypt);
+        $kejuruan_akhir = $nilai_model->kejuruan_akhir($decrypt);
 
         /**
          * get dan count data pekerjaan dari model berdasarkan id_alumni
@@ -248,7 +254,6 @@ class PagesController extends Controller
     public function jobvacancy()
     {
         $loker = LowonganKerja::all();
-
         $data = [
             'active' => 'vacancy',
             'loker' => $loker,
@@ -263,16 +268,18 @@ class PagesController extends Controller
     public function detailvacany($id)
     {
         // $idloker = decrypt($id);
-        $loker = LowonganKerja::where('id_lowongankerja', $id)->first();
+        $loker = LowonganKerja::where('slug', $id)->first();
+        $id_loker = $loker->id_lowongankerja;
+        // dd($id_loker);
         if ($loker->mitra->foto == 'default-company.png') {
             $urlImg = '/assets/img/imp/';
-        }else{
+        } else {
             $urlImg = '/assets/img/';
         }
-
-        $requirement = Requirement::where('lowongankerja_id', $id)->get();
-        $tahap = Tahap::where('lowongankerja_id', $id)->get();
-        $galeri = Galeri::where('lowongankerja_id', $id)->get();
+        // dd($urlImg);
+        $requirement = Requirement::where('lowongankerja_id', $id_loker)->get();
+        $tahap = Tahap::where('lowongankerja_id', $id_loker)->get();
+        $galeri = Galeri::where('lowongankerja_id', $id_loker)->get();
 
         $data = [
             'active' => 'vacancy',
@@ -289,13 +296,19 @@ class PagesController extends Controller
     /**
      * Halaman Mitra dan Search Mitra
      */
-    public function mitra()
+    public function mitra(Request $request)
     {
-        $mitra = Mitra::paginate(12);
+        if ($request->has('q')) {
+            $data_mitra = Mitra::where('nama', 'LIKE', '%' . $request->q . '%')->get();
+        } else {
+            // $data_mitra = Alumni::orderBy('nis', 'ASC')->get();
+            $data_mitra = Mitra::orderBy('nama', 'ASC')->orderBy('created_at', 'DESC')->get();
+        }
+        // $mitra = Mitra::all();
 
         $data = [
             'active' => 'mitra',
-            'mitra' => $mitra,
+            'data_mitra' => $data_mitra,
         ];
 
         return view('pages.mitra.main', $data);
@@ -309,7 +322,7 @@ class PagesController extends Controller
         $mitra = Mitra::where('id_mitra', $id)->first();
         if ($mitra->foto == 'default-company.png') {
             $urlImg = '/assets/img/imp/';
-        }else{
+        } else {
             $urlImg = '/assets/img/';
         }
 
@@ -325,12 +338,18 @@ class PagesController extends Controller
     /**
      * Halaman Information dan Search Information
      */
-    public function information()
+    public function information(Request $request)
     {
-        $news = Informasi::all();
+        if ($request->has('q')) {
+            $data_informasi = Informasi::where('title', 'LIKE', '%' . $request->q . '%')->get();
+        } else {
+            // $data_informasi = Alumni::orderBy('nis', 'ASC')->get();
+            $data_informasi = Informasi::orderBy('title', 'ASC')->orderBy('created_at', 'DESC')->get();
+        }
+        // $news = Informasi::all();
         $data = [
             'active' => 'information',
-            'news' => $news,
+            'data_informasi' => $data_informasi,
         ];
         return view('pages.informasi.main', $data);
     }
