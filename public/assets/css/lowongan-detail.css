@@ -1,0 +1,241 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Red Hat Display", sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+:root {
+    --biru: #2041bb;
+    --abu: #c4c4c4;
+}
+
+.bg-biru {
+    background-color: var(--biru);
+}
+
+.btn-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    height: 40px;
+    background-color: white;
+    font-weight: 700;
+    transition: 0.3s all;
+}
+
+.btn-login:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* footer */
+#footer {
+    padding-bottom: 30px;
+    background-color: white;
+}
+
+.footer-title {
+    font-size: 18px;
+}
+
+.footer-text {
+    font-size: 16px;
+}
+
+.footer {
+    margin-bottom: 100px;
+}
+
+/* ---------------------------- */
+#header {
+    /* height: 380px; */
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.header-wrap {
+    height: 100%;
+}
+
+.header-text {
+    font-size: 56px;
+    font-weight: 800;
+    color: white;
+}
+
+.header-input {
+    background-color: #476fff;
+    box-shadow: 0px 4px 12px -1px #00000026;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    outline: none;
+    outline-style: none;
+    border: none;
+    width: 300px;
+    height: 50px;
+    padding: 5px;
+    font-size: 18px;
+    color: white;
+    transition: 0.3s all;
+}
+
+.header-title {
+    font-size: 48px;
+    color: white;
+    font-weight: 800;
+    margin-bottom: 40px;
+}
+
+.header-sub {
+    font-size: 18px;
+    color: white;
+    position: relative;
+    top: 20px;
+    color: #ffffffbf;
+}
+
+/* content */
+.box {
+    background-color: white;
+    padding: 0px;
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.box-wrap {
+    padding: 0px 40px;
+}
+
+.box-sampul {
+    height: 200px;
+    background: linear-gradient(to top left, #a7baff, #2041bb);
+}
+
+.profil-img {
+    object-fit: cover;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 8px solid white;
+    position: absolute;
+    left: 20px;
+    top: 100px;
+}
+
+.box-title {
+    margin-top: 120px;
+    font-size: 36px;
+    font-weight: 900;
+}
+
+.nama-pt {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.alamat {
+    font-size: 18px;
+    margin: 40px 0px;
+    font-weight: 700;
+}
+
+.desc-pt {
+    font-size: 16px;
+}
+
+.apply-btn {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+    font-size: 24px;
+    background-color: #476fff;
+    font-weight: 700;
+    border-radius: 15px;
+    margin-top: 60px;
+}
+
+/* job desc */
+.sub-title {
+    font-weight: 900;
+    font-size: 24px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 20px;
+}
+
+.box-desc {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    font-size: 18px;
+}
+
+/* highlight */
+.highlight-wrap {
+    font-size: 18px;
+}
+
+@media only screen and (min-width: 768px) {
+    .btn-login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        width: 100px;
+        height: 40px;
+        background-color: white;
+        font-weight: 700;
+        transition: 0.3s all;
+    }
+
+    .header-sub {
+        font-size: 28px;
+    }
+
+    .header-text {
+        font-size: 96px;
+    }
+
+    .profil-img {
+        left: 40px;
+    }
+
+    .box-title {
+        font-size: 48px;
+    }
+
+    .nama-pt {
+        font-size: 24px;
+    }
+
+    .alamat {
+        font-size: 24px;
+    }
+
+    .desc-pt {
+        font-size: 18px;
+    }
+
+    .sub-title {
+        font-size: 36px;
+        padding-left: 0px;
+    }
+
+    .highlight-wrap {
+        font-size: 24px;
+    }
+}

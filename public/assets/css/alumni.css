@@ -1,0 +1,233 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Red Hat Display", sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+}
+
+:root {
+    --biru: #2041bb;
+    --abu: #c4c4c4;
+}
+
+.bg-biru {
+    background-color: var(--biru);
+}
+
+/* ---------------------------- */
+.btn-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    height: 40px;
+    background-color: white;
+    font-weight: 700;
+    transition: 0.3s all;
+}
+
+.btn-login:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+#header {
+    /* height: 380px; */
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.header-wrap {
+    height: 100%;
+}
+
+.header-text {
+    font-size: 56px;
+    font-weight: 800;
+    color: white;
+}
+
+.header-input {
+    background-color: #476fff;
+    box-shadow: 0px 4px 12px -1px #00000026;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    outline: none;
+    outline-style: none;
+    border: none;
+    width: 300px;
+    height: 50px;
+    padding: 5px;
+    font-size: 18px;
+    color: white;
+    transition: 0.3s all;
+}
+
+.header-title {
+    font-size: 48px;
+    color: white;
+    font-weight: 800;
+    margin-bottom: 40px;
+}
+
+::placeholder {
+    color: white;
+}
+
+.header-btn {
+    border: none;
+    background: none;
+    outline-style: none;
+    outline: none;
+    background-color: #476fff;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.bi-search {
+    font-size: 28px;
+}
+
+/* daftar alumni */
+#daftar-alumni {
+    margin-top: 50px;
+}
+
+.daftar-title {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.daftar-content {
+    margin-top: 30px;
+}
+
+.card-alumni {
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.img-alumni {
+    width: 120px;
+    border-radius: 50%;
+}
+
+.alumni-name {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.circle {
+    display: block;
+    width: 10px;
+    height: 10px;
+}
+
+.box {
+    padding: 5px;
+    background-color: #476fff;
+}
+
+.alumni-btn {
+    border-radius: 8px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    padding: 8px 0px;
+    background-color: #476fff;
+    color: white;
+    text-decoration: none;
+    font-weight: 800;
+    transition: 0.3s all;
+}
+
+.alumni-btn:hover {
+    background-color: rgba(71, 111, 255, 0.6);
+    color: white;
+}
+
+/* status */
+.status-box {
+    padding: 2px 8px;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    background-color: #c2c2c2;
+    color: white;
+}
+
+.status-box-active {
+    padding: 2px 8px;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    background-color: var(--biru);
+    color: white;
+}
+
+.circle {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin-right: 5px;
+}
+
+/* footer */
+#footer {
+    padding-bottom: 30px;
+    background-color: white;
+}
+
+.footer-title {
+    font-size: 18px;
+}
+
+.footer-text {
+    font-size: 16px;
+}
+
+.footer {
+    margin-bottom: 100px;
+}
+
+/* responsive */
+@media only screen and (min-width: 768px) {
+    .btn-login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        width: 100px;
+        height: 40px;
+        background-color: white;
+        font-weight: 700;
+        transition: 0.3s all;
+    }
+
+    .header-text {
+        font-size: 96px;
+    }
+
+    .header-input {
+        width: 600px;
+        height: 60px;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        padding-left: 10px;
+    }
+}

@@ -1,0 +1,135 @@
+:root {
+    --bg: rgb(26, 27, 30);
+    --color: #ffffff;
+    --bg-black: rgb(50, 52, 61);
+    --bg-white: #ffffff;
+    --warn-bg: rgb(198, 48, 48);
+    --modal-color: rgb(155, 155, 160);
+}
+
+.modal-menu,
+nav {
+    padding: 0;
+    margin: 0;
+}
+
+.modal-button {
+    display: inline-block;
+    background-color: var(--bg-black);
+    color: var(--bg-white);
+    border-radius: 10px;
+    font-weight: 600;
+    border: none;
+    height: 36px;
+    line-height: 1;
+    padding: 0 22px;
+    font-size: 14px;
+    cursor: pointer;
+    appearance: none;
+    user-select: none;
+    text-decoration: none;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.modal-button small {
+    margin-left: 4px;
+    opacity: 0.9;
+}
+
+.modal-button small i {
+    margin-right: 1px;
+}
+
+.modal-button.warn,
+.modal-button[type="submit"] {
+    background-color: var(--warn-bg);
+}
+
+.modalCSM::-webkit-scrollbar {
+    display: none;
+}
+
+.modalCSM {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll;
+    /* height: fit-content; */
+    width: 600px;
+    border: none;
+    border-radius: 10px;
+    color: var(--bg);
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    background-color: var(--color);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+/* .modalCSM .modal-main {
+    overflow-y: scroll;
+} */
+
+.modalCSM .header strong {
+    font-size: 20px;
+}
+
+.modalCSM::backdrop {
+    background: linear-gradient(
+        45deg,
+        rgb(18, 18, 20, 0.4),
+        rgb(17, 17, 20, 0.8)
+    );
+}
+
+.modalCSM[open] {
+    animation: scale 0.3s ease normal;
+}
+
+.modalCSM[open]::backdrop {
+    animation: backdrop 0.3s ease normal;
+}
+
+.modalCSM.hide {
+    animation-direction: reverse;
+}
+
+.modalCSM menu {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    vertical-align: middle;
+    justify-content: center;
+    gap: 12px;
+}
+
+.modalCSM menu small {
+    margin-right: auto;
+}
+
+.modalCSM i.cancel {
+    cursor: pointer;
+    padding: 0 5px;
+    float: right;
+}
+
+@keyframes scale {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes backdrop {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

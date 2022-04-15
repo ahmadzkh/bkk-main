@@ -1,0 +1,190 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Red Hat Display", sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+}
+
+:root {
+    --biru: #2041bb;
+    --abu: #c4c4c4;
+}
+
+.bg-biru {
+    background-color: var(--biru);
+}
+
+.btn-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    height: 40px;
+    background-color: white;
+    font-weight: 700;
+    transition: 0.3s all;
+}
+
+.btn-login:hover {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* footer */
+#footer {
+    padding-bottom: 30px;
+    background-color: white;
+}
+
+.footer-title {
+    font-size: 18px;
+}
+
+.footer-text {
+    font-size: 16px;
+}
+
+.footer {
+    margin-bottom: 100px;
+}
+
+/* ---------------------------- */
+#header {
+    /* height: 380px; */
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.header-wrap {
+    height: 100%;
+}
+
+.header-text {
+    font-size: 56px;
+    font-weight: 800;
+    color: white;
+}
+
+.header-input {
+    background-color: #476fff;
+    box-shadow: 0px 4px 12px -1px #00000026;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    outline: none;
+    outline-style: none;
+    border: none;
+    width: 300px;
+    height: 50px;
+    padding: 5px;
+    font-size: 18px;
+    color: white;
+    transition: 0.3s all;
+}
+
+.header-title {
+    font-size: 48px;
+    color: white;
+    font-weight: 800;
+    margin-bottom: 40px;
+}
+
+::placeholder {
+    color: white;
+}
+
+.header-btn {
+    border: none;
+    background: none;
+    outline-style: none;
+    outline: none;
+    background-color: #476fff;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.bi-search {
+    font-size: 28px;
+}
+
+/* content */
+.sub-title {
+    margin: 50px 0px;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.box {
+    background-color: white;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* width: 220px; */
+    border-radius: 10px;
+}
+
+.nama-mitra {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 20px 0px;
+}
+
+.mitra-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    overflow: hidden;
+}
+
+.mitra-btn {
+    font-weight: 800;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.see-btn {
+    font-weight: 600;
+    width: 10rem;
+    border-radius: 8px;
+}
+
+@media only screen and (min-width: 768px) {
+    .btn-login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        width: 100px;
+        height: 40px;
+        background-color: white;
+        font-weight: 700;
+        transition: 0.3s all;
+    }
+
+    .header-text {
+        font-size: 96px;
+    }
+
+    .header-sub {
+        font-size: 24px;
+    }
+
+    .header-input {
+        width: 700px;
+        height: 55px;
+        padding: 10px;
+    }
+
+    .sub-title {
+        font-size: 36px;
+    }
+}

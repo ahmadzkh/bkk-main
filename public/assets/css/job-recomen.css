@@ -1,0 +1,187 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Red Hat Display', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+}
+
+:root {
+    --biru: #2041BB;
+    --abu: #c4c4c4;
+}
+
+.bg-biru {
+    background-color: var(--biru);
+}
+
+.btn-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    height: 40px;
+    background-color: white;
+    font-weight: 700;
+    transition: .3s all;
+}
+
+.btn-login:hover {
+    background-color: rgba(255, 255, 255, .7);
+}
+
+/* footer */
+#footer {
+    padding-bottom: 30px;
+    background-color: white;
+}
+
+.footer-title {
+    font-size: 18px;
+}
+
+.footer-text {
+    font-size: 16px;
+}
+
+.footer {
+    margin-bottom: 100px;
+}
+
+/* ---------------------------- */
+#header {
+    background-color: var(--biru);
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.header-text {
+    font-size: 40px;
+    color: white;
+    font-weight: 800;
+}
+
+.header-sub {
+    font-size: 28px;
+    color: white;
+    position: relative;
+    top: 20px;
+    color: #FFFFFFBF;
+}
+
+.sub-title {
+    font-weight: 900;
+    font-size: 24px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    margin-left: 0px;
+}
+
+/* profil */
+.box {
+    background-color: white;
+    padding: 0px;
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.box-wrap {
+    padding: 0px 40px;
+}
+
+.box-sampul {
+    height: 150px;
+    background: linear-gradient(to top left, #a7baff, #2041BB);
+}
+
+.profil-img {
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 8px solid white;
+    position: absolute;
+    left: 40px;
+    top: 75px;
+}
+
+.box-title {
+    margin-top: 80px;
+    font-size: 36px;
+    font-weight: 900;
+}
+
+/* status */
+.status-box {
+    padding: 2px 8px;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    background-color: #c2c2c2;
+    color: white;
+}
+
+.circle {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin-right: 5px;
+}
+.sub-desc{
+    position: relative;
+    top: -20px;
+}
+/* loker */
+.lmr-box{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    padding: 24px;
+    border-radius: 15px;
+}
+.lmr-btn{
+    border-radius: 8px !important;
+}
+
+
+
+
+@media only screen and (min-width: 768px) {
+    .btn-login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        width: 100px;
+        height: 40px;
+        background-color: white;
+        font-weight: 700;
+        transition: .3s all;
+    }
+
+    .header-sub {
+        font-size: 28px;
+    }
+
+    .header-text {
+        font-size: 64px;
+    }
+
+
+}
