@@ -5,8 +5,10 @@ namespace App\Http\Controllers\mitra;
 use App\Http\Controllers\Controller;
 use App\Models\Rekomend;
 use App\Models\Alumni;
-use App\Models\Alumni_direkomendasikan;
-use App\Models\Loker;
+use App\Models\Mitra;
+// use App\Models\Alumni_direkomendasikan;
+use App\Models\AlumniDirekomendasikan;
+use App\Models\Lowongankerja;
 use App\Models\Jurusan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,12 +24,14 @@ class RekomendController extends Controller
     */
     public function main()
     {
+        $user_id = auth()->user()->id;
+        $mitra = Mitra::where('user_id', $user_id)->first();
         // DATA BUAT SELECT2
         $alumni = Alumni::orderBy('jurusan_id', 'ASC')->get();
         $jurusan = Jurusan::all();
 
         // DATA BUAT TABLE
-        $loker = Loker::where('mitra_id', 'MRA00002')->get();
+        $loker = Lowongankerja::where('mitra_id', $mitra->id_mitra)->get();
         $dataRekomend = DB::table('recommendations')->get();
 
         // BUAT NGAMBIL NAMA JURUSAN
@@ -94,7 +98,7 @@ class RekomendController extends Controller
             'created_at'         => Carbon::now('Asia/Jakarta')->format('Y-m-d'),
         ]);
 
-        $alumni_direkomend = Alumni_direkomendasikan::create([
+        $alumni_direkomend = AlumniDirekomendasikan::create([
             'alumni_id'         => $request->alumni,
             'rekomendasi_id'    => $koderekomend,
         ]);

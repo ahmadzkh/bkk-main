@@ -46,12 +46,11 @@
             </div>
 
             <div class="search py-3">
-                <!-- SEARCH BAR -->
                 <form action="" class="position-relative d-flex justify-content-center">
                     <div class="input-group mb-3">
                         <button class="input-group-text btn-search"><i class='bx bx-search'></i></button>
                         <input type="text" class="form-control" placeholder="Search Pelamar..." aria-label="search"
-                            name="search">
+                            name="search" value="{{ $searchData }}">
                     </div>
                 </form>
             </div>
@@ -71,6 +70,15 @@
             @endif
 
             <div class="loker-wrapper row">
+                @if ($loker->isEmpty())
+                {{-- <div class="rounded-15 bg-white p-3">
+                    <h4 class="fw-bold text-center">Data tidak ditemukan.</h4>
+                </div> --}}
+                <div class="alert alert-danger alert-dismissible fade show rounded-15" role="alert">
+                    <i class='bx bx-info-circle align-middle' style="font-size: 28px;"></i> Data tidak ditemukan.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                @else
                 @foreach ($loker as $item)
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="loker-item p-4 bg-white rounded-15 shadow">
@@ -111,6 +119,12 @@
                         </div>
                     </div>
                 @endforeach
+                @endif
+
+                <!-- PAGINASI -->
+                <div class="d-flex justify-content-end">
+                    {{ $loker->links('vendor.pagination.bootstrap-4') }}
+                </div>
             </div>
         </div>
     </div>

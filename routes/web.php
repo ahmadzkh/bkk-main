@@ -151,7 +151,7 @@ Route::prefix('mt')->middleware('is_mitra')->group(function () {
     Route::post('/kantor/hapus/{id}', 'mitra\MainController@kantorDelete');
 
     Route::prefix('lk')->group(function () {
-        Route::get('/main', 'mitra\LokerController@main')->name('mitra.loker');
+        Route::get('/main', 'mitra\LokerController@main')->name('mitra.main.loker');
         Route::get('/detail/{id}', 'mitra\LokerController@detail');
         Route::get('/tambah', 'mitra\LokerController@tambah')->name('tambah-mitra');
         Route::post('/tambahpost', 'mitra\LokerController@store');

@@ -111,7 +111,7 @@
             <div class="detail-outer-wrapper shadow-custom-2 mb-5 rounded-custom">
                 <!-- HEADER -->
                 <div class="header d-flex align-items-center position-relative overflow-hidden">
-                    <img src="/assets/img/{{ $loker->banner }}" alt="" class="center" width="100%" draggable="false">
+                    <img src="/assets/img/mitra/{{ $loker->banner }}" alt="" class="center" width="100%" draggable="false">
                 </div>
                 <div class="content py-3 px-md-5 px-2">
                     <div class="mb-4 d-flex justify-content-between">

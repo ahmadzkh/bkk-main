@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/styleMitra.css">
     <!-- TEXTAREA EDITOR -->
-    <script src="../../../assets/js/ckeditor.js"></script>
+    {{-- <script src="{{ asset('/assets/js/ckeditor.js') }}"></script> --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>
 
     <style>
         /* STYLING TITLE PAGE */
@@ -95,12 +96,12 @@
     </style>
 @endsection
 
-@section('section')
-    @include('layouts.navbar')
+@section('container')
+    @include('partials.navbar-mitra')
 
     <div class="main-page">
         <!-- SIDEBAR -->
-        @include('layouts.sidebar-mitra')
+        @include('partials.sidebar-mitra')
 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="position-absolute waves"
             preserveAspectRatio="none">
@@ -135,7 +136,7 @@
                     <h2 class="fw-700 mb-2">Data</h2>
                     <form action="/mt/lk/ubah/post" method="POST" class="" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="loker_id" value="{{ $loker->id }}">
+                        <input type="hidden" name="loker_id" value="{{ $loker->id_lowongankerja }}">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
                             <input type="text" class="form-control rounded-15 @error('title') is-invalid @enderror"
@@ -182,8 +183,8 @@
                                 name="jurusan">
                                 <option selected disabled hidden>Pilih Jurusan</option>
                                 @foreach ($jurusan as $jur)
-                                    <option @if ($loker->jurusan_id == $jur['id']) {{ 'selected ' }} @endif
-                                        value="{{ $jur['id'] }}">{{ $jur['nama'] }}</option>
+                                    <option @if ($loker->jurusan_id == $jur->id_jurusan) {{ 'selected ' }} @endif
+                                        value="{{ $jur->id_jurusan }}">{{ $jur->nama }}</option>
                                 @endforeach
                             </select>
                             @error('jurusan')
@@ -230,16 +231,16 @@
                         </div>
                         <div class="mb-3">
                             <label for="lokasi_kerja" class="form-label">Lokasi Kerja</label>
-                            <select class="form-select rounded-15 @error('lokasi_kerja') is-invalid @enderror"
-                                id="lokasi_kerja" name="lokasi_kerja" onchange="updateLok(this.value)">
+                            <select class="form-select rounded-15 @error('kantor') is-invalid @enderror"
+                                id="kantor" name="kantor" onchange="updateLok(this.value)">
                                 <option selected disabled hidden>Pilih Lokasi Kerja</option>
-                                @foreach ($lokasi_kerja as $lok)
-                                    <option @if ($loker->lokasi_kerja == $lok['id']) {{ 'selected ' }} @endif
-                                        value="{{ $lok['id'] }}">{{ $lok['alamat'] }} - {{ $lok['status'] }}
+                                @foreach ($kantor as $lok)
+                                    <option @if ($loker->kantor_id == $lok->id_kantor) {{ 'selected ' }} @endif
+                                        value="{{ $lok->id_kantor }}">{{$lok->alamat }} - {{ $lok->status }}
                                     </option>
                                 @endforeach
                             </select>
-                            @error('lokasi_kerja')
+                            @error('kantor')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -266,8 +267,8 @@
                                     {{ $message }}
                                 </div>
                             @enderror
-                            <div class="mt-2" id="imgbannerPrev"><img src="/assets/img/{{ $loker->banner }}"
-                                    class="w-100 rounded-20" id="bannerPrev" draggable="false"></div>
+                            <div class="mt-2" id="imgbannerPrev"><img src="/assets/img/mitra/{{ $loker->banner }}"
+                                    class="w-100 rounded-20" id="bannerPrev" draggable="false" alt=""></div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Images</label>
@@ -279,8 +280,8 @@
                                     <div class="d-block">
                                         <div
                                             class="image rounded-20 text-center overflow-hidden position-relative me-1 mb-2">
-                                            <img src="/assets/img/{{ $gal->foto }}"
-                                                id="imagePreview{{ $key }}" width="100" draggable="false">
+                                            <img src="/assets/img/galeri/{{ $gal->foto }}"
+                                                id="imagePreview{{ $key }}" width="100" draggable="false" alt="">
                                             <div class="upload-image" id="uploadImage{{ $key }}">
                                                 <label for="uploadPhoto{{ $key }}"
                                                     id="labelPhoto{{ $key }}" class="position-absolute"><i
@@ -291,7 +292,7 @@
                                             <input type="hidden" name="old_fotos[]" id="hidden_fotos{{ $key }}"
                                                 value="{{ $gal->foto }}">
                                             <input type="hidden" name="id_fotos[]" id="hidden_fotos{{ $key }}"
-                                                value="{{ $gal->id }}">
+                                                value="{{ $gal->id_galeri }}">
                                         </div>
                                         <div class="delete-wrapper text-center">
                                             <button type="button" onclick="deleteButton('{{ $key }}')"
@@ -340,7 +341,7 @@
                                         id="requirement{{ $key }}"
                                         placeholder="Requirement {{ $key }}..." name="req[]"
                                         value="{{ $req->text }}">
-                                    <input type="hidden" name="id_req[]" value="{{ $req->id }}">
+                                    <input type="hidden" name="id_req[]" value="{{ $req->id_persyaratan }}">
                                     <div class="delete-req">
                                         <button type="button" class="btn btn-danger rounded-15"
                                             onclick="deleteReq('{{ $key }}')">-</button>
@@ -378,7 +379,7 @@
                                         <label class="form-label">Tahap {{ $key + 1 }}</label>
                                         <input type="number" class="form-control rounded-15" id="sec"
                                             placeholder="Tahap Ke..." name="tahapsec[]" value="{{ $val->tahap_ke }}">
-                                        <input type="hidden" name="id_tahap[]" value="{{ $val->id }}">
+                                        <input type="hidden" name="id_tahap[]" value="{{ $val->id_tahap }}">
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">Nama Tahap</label>
@@ -406,8 +407,8 @@
                     <h2 class="fw-700 mb-2">Preview</h2>
                     <div class="loker-preview p-4 bg-white rounded-15 shadow">
                         <div class="img mb-3">
-                            <img src="{{ $loker->mitra->foto ? '/assets/img/' . $loker->mitra->foto : '' }}"
-                                width="120px" class="rounded-15">
+                            <img src="{{ $urlImg.$loker->mitra->foto }}"
+                                width="120px" class="rounded-15" alt="">
                         </div>
                         <div class="title">
                             <h4 class="fw-900 mb-0 text-primary" id="position_value">{{ $loker->posisi }}</h4>
@@ -426,7 +427,7 @@
                         </div>
                         <hr>
                         <div class="bottom">
-                            <p class="text-secondary mb-0">{{ $age }}</p>
+                            <p class="text-secondary mb-0">{{\Carbon\Carbon::parse($loker->created_at)->diffForHumans()}}</p>
                         </div>
                     </div>
                     </form>
@@ -437,8 +438,8 @@
 @endsection
 
 @section('script')
-    <script src="../../../assets/js/sweetalert.min.js"></script>
-    <script src="../../../assets/js/jquery.min.js"></script>
+    <script src="{{ asset('assets/js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 
     <script>
         var newReqNum = {{ $reqs->count() }};

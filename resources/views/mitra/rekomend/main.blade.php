@@ -1,6 +1,6 @@
-@extends('layouts.master')
+@extends('templates.main')
 
-@section('titlepage', 'Rekomendasi Alumni | Mitra')
+@section('title', 'Rekomendasi Alumni | Mitra')
 
 @section('css')
     <!-- SELECT 2 -->
@@ -82,11 +82,11 @@
     </style>
 @endsection
 
-@section('section')
-    @include('layouts.navbar')
+@section('container')
+    @include('partials.navbar-mitra')
     <div class="main-page">
         <!-- SIDEBAR -->
-        @include('layouts.sidebar-mitra')
+        @include('partials.sidebar-mitra')
 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="position-absolute waves"
             preserveAspectRatio="none">
@@ -214,7 +214,7 @@
                     <select class="js-select2 form-control" id="select2another" name="alumni">
                         <option selected hidden>Pilih Alumni</option>
                         @foreach ($alumni as $alm)
-                            <option @if (old('alumni') == $alm->id) selected @endif value="{{ $alm->id }}">
+                            <option @if (old('alumni') == $alm->id_alumni) selected @endif value="{{ $alm->id_alumni }}">
                                 {{ $alm->nama }} -
                                 {{ $alm->jurusan->nama }}</option>
                         @endforeach
@@ -225,8 +225,8 @@
                     <select class="js-select2 form-control" id="select2insidemodal" name="loker">
                         <option selected hidden>Pilih Loker</option>
                         @foreach ($loker as $lkr)
-                            <option @if (old('loker') == $lkr->id) selected @endif value="{{ $lkr->id }}">
-                                {{ $lkr->id }} -
+                            <option @if (old('loker') == $lkr->id_lowongankerja) selected @endif value="{{ $lkr->id_lowongankerja }}">
+                                {{ $lkr->id_lowongankerja }} -
                                 {{ $lkr->title }}</option>
                         @endforeach
                     </select>
@@ -255,7 +255,7 @@
 @endsection
 
 @section('script')
-    <script src="../../../assets/js/custom-modal.js"></script>
+    <script src="{{ asset('/assets/js/custom-modal.js') }}"></script>
     <script>
         $(document).ready(function() {
             $("#select2another").select2({

@@ -23,6 +23,7 @@ use App\Models\User;
 use App\Models\Jurusan;
 use App\Models\Angkatan;
 use App\Models\Mitra;
+use App\Models\Rekomend;
 use Hamcrest\Core\HasToString;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
@@ -398,9 +399,9 @@ class AlumniController extends Controller
         $pelamar = Pelamar::findOrFail($id)->delete();
         $seleksi_pelamar = SeleksiPelamar::findOrFail($id)->delete();
         $surat_lamaran = SuratLamaranKerja::findOrFail($id)->delete();
-        $rekomendasi = Rekomendasi::findOrFail($id)->delete();
-        $rekomendasi = Rekomendasi::findOrFail($id)->delete();
-        $rekomendasi = Rekomendasi::findOrFail($id)->delete();
+        $rekomendasi = Rekomend::findOrFail($id)->delete();
+        $rekomendasi = Rekomend::findOrFail($id)->delete();
+        $rekomendasi = Rekomend::findOrFail($id)->delete();
 
         return redirect('/ad/al/list');
     }

@@ -29,7 +29,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <div class="dropdown">
-                            <a class="" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="btn btn-primary rounded-15" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                                 @if (auth()->user()->username == null)
                                 {{ auth()->user()->email }}<i class='bx bx-user-circle ms-3 align-middle'></i>
                                 @else

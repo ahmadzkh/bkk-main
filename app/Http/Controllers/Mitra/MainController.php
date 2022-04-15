@@ -85,7 +85,7 @@ class MainController extends Controller
         if ($mitra->foto == 'default-company.png') {
             $urlImg = '/assets/img/imp/';
         }else{
-            $urlImg = '/assets/img/';
+            $urlImg = '/assets/img/mitra/';
         }
 
         $data = [
@@ -179,7 +179,7 @@ class MainController extends Controller
             $nameImage = pathinfo($Image->getClientOriginalName(), PATHINFO_FILENAME);
             $fullFileImage = $nameImage . "-" . time() . Str::random(5) . "." .$Image->getClientOriginalExtension();
             // PINDAHIN DAN DELETE YG LAMA
-            $link = str_replace('\\', '/', public_path('assets/img/mitra'));
+            $link = str_replace('\\', '/', public_path('assets/img/mitra/'));
 
             // MOVE IF GAMBAR TIDAK SAMA DENGAN DEFAULT
             if ($mitra->foto !== 'default-company.png') {

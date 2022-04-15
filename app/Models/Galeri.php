@@ -9,6 +9,7 @@ class Galeri extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_galeri';
     protected $table = 'galeri';
 
     /**

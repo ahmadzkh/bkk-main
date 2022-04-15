@@ -9,6 +9,8 @@ class Requirement extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_persyaratan';
+
     /**
      * The table associated with the model.
      *

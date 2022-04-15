@@ -9,6 +9,8 @@ class Tahap extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_tahap';
+
     /**
      * The table associated with the model.
      *

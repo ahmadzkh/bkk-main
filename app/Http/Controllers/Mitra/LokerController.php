@@ -27,20 +27,38 @@ class LokerController extends Controller
     *
     * @return void
     */
-    public function main()
+    public function main(Request $request)
     {
         $user_id = auth()->user()->id;
         $mitra = Mitra::where('user_id', $user_id)->first();
-        $loker = Lowongankerja::where('mitra_id', $mitra->id_mitra)->get();
-        foreach ($loker as $key => $lkr) {
-            $requirement[$key++] = Requirement::where('lowongankerja_id', $lkr->id_lowongankerja)->get();
-            $age[$key++] = ['id' => $lkr->id_lowongankerja,'date' => Carbon::parse($lkr->created_at)->diffForHumans()];
+        // $loker = Lowongankerja::where('mitra_id', $mitra->id_mitra)->get();
+        $search = $request->search;
+        if ($search) {
+            $loker = Lowongankerja::where([['mitra_id', $mitra->id_mitra],['title','like',"%".$search."%"]])
+                ->orWhere([['mitra_id', $mitra->id_mitra],['posisi','like',"%".$search."%"]])
+                ->orWhere([['mitra_id', $mitra->id_mitra],['kategori','like',"%".$search."%"]])
+                ->paginate(1);
+            $searchData = $request->search;
+        }else{
+            $loker = Lowongankerja::where('mitra_id', $mitra->id_mitra)
+                ->paginate(10);
+            $searchData = '';
+        }
+
+        if ($loker->isEmpty()) {
+            $requirement = null;
+            $age = null;
+        }else{
+            foreach ($loker as $key => $lkr) {
+                $requirement[$key++] = Requirement::where('lowongankerja_id', $lkr->id_lowongankerja)->get();
+                $age[$key++] = ['id' => $lkr->id_lowongankerja,'date' => Carbon::parse($lkr->created_at)->diffForHumans()];
+            }
         }
 
         if ($mitra->foto == 'default-company.png') {
             $urlImg = '/assets/img/imp/';
         }else{
-            $urlImg = '/assets/img/';
+            $urlImg = '/assets/img/mitra/';
         }
 
         $data = [
@@ -49,6 +67,7 @@ class LokerController extends Controller
             'requirement' => $requirement,
             'urlImg' => $urlImg,
             'ages' => $age,
+            'searchData' => $searchData,
         ];
 
         return view('mitra.loker.main', $data);
@@ -260,7 +279,7 @@ class LokerController extends Controller
 
         if($loker && $galeri && $requirement && $tahapan){
             //redirect dengan pesan sukses
-            return redirect()->route('mitra.loker')->with(['success' => 'Data Berhasil Ditambahkan!']);
+            return redirect()->route('mitra.main.loker')->with(['success' => 'Data Berhasil Ditambahkan!']);
         }else{
             //redirect dengan pesan error
             return redirect()->back()->withErrors(['error' => 'Data Gagal Disimpan!']);
@@ -275,29 +294,35 @@ class LokerController extends Controller
     */
     public function ubah($id)
     {
-        $loker = Lowongankerja::where([['mitra_id', 'MRA00002'],['id', $id]])->first();
+        $user_id = auth()->user()->id;
+        $mitra = Mitra::where('user_id', $user_id)->first();
+        $loker = Lowongankerja::where([['mitra_id', $mitra->id_mitra],['id_lowongankerja', $id]])->first();
 
         if ($loker == null) {
             return redirect('/mt/lk/main')->with('error', 'Data tidak dapat diakses!');
         }
 
-        $age = Carbon::parse($loker->tanggal_posting)->diffForHumans();
-        $jurusan = [['id' => 'JRSN0001','nama' => 'Teknik Permesinan'],['id' => 'JRSN0004','nama' => 'Rekayasa Perangkat Lunak']];
-        $lokasi_kerja = [['id' => 'KTR00001','alamat' => 'Jl. H. Ucok', 'status' => 'Kantor Cabang']];
+        $jurusan = Jurusan::all();
+        $kantor = Kantor::where('mitra_id', $mitra->id_mitra)->get();
         $requirement = Requirement::where('lowongankerja_id', $id)->get();
         $tahap = Tahap::where('lowongankerja_id', $id)->get();
         $galeri = Galeri::where('lowongankerja_id', $id)->get();
-        // $tahapNumber = $tahap->count();
+
+        if ($loker->mitra->foto == 'default-company.png') {
+            $urlImg = '/assets/img/imp/';
+        }else{
+            $urlImg = '/assets/img/';
+        }
 
         $data = [
-            'title' => 'loker',
+            'active' => 'loker',
             'jurusan' => $jurusan,
-            'lokasi_kerja' => $lokasi_kerja,
+            'kantor' => $kantor,
             'loker' => $loker,
             'reqs' => $requirement,
             'tahap' => $tahap,
             'galeri' => $galeri,
-            'age' => $age,
+            'urlImg' => $urlImg,
         ];
 
         return view('mitra.loker.ubah', $data);
@@ -319,16 +344,16 @@ class LokerController extends Controller
             'jenis_pekerjaan'   => 'required',
             'posisi'            => 'required',
             'kuota'             => 'required|numeric',
-            'lokasi_kerja'      => 'required',
+            'kantor'            => 'required',
             'deskripsi'         => 'required',
             'gaji'              => 'required|numeric',
             'kedaluwarsa'       => 'required|date',
             'req'               => 'nullable',
-            'banner'            => 'image|mimes:png,jpg,jpeg|max:80000',
-            'fotos'             => 'image|mimes:png,jpg,jpeg|max:80000',
-            // 'namasec'           => 'min:5',
-            // 'tahapsec'          => 'numeric',
-            // 'datesec'           => 'date',
+            'banner'            => 'image|max:80000',
+            'fotos.*'             => 'image|max:80000',
+            'namasec.*'           => 'required',
+            'tahapsec.*'          => 'required',
+            'datesec.*'           => 'required',
         ],[
             'req.min'           => 'Field Requirement must over 7 characters!',
         ]);
@@ -345,9 +370,9 @@ class LokerController extends Controller
         $dateNow = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         // JIKA SEKARANG KURANG DARI KEDALUWARSA
         if ($request->kedaluwarsa >= $dateNow){
-            $status = 'active';
+            $status = '1';
         }else{
-            $status = 'nonactive';
+            $status = '0';
         }
 
         // SAVING BANNER
@@ -358,28 +383,37 @@ class LokerController extends Controller
             $nameBanner = pathinfo($banner->getClientOriginalName(), PATHINFO_FILENAME);
             $fullFileBanner = $nameBanner . "-" . time() . Str::random(5) . "." .$banner->getClientOriginalExtension();
             // PINDAHIN
-            $banner->move(public_path('/assets/img'), $fullFileBanner);
+            $banner->move(public_path('/assets/img/mitra'), $fullFileBanner);
+
+            $link = str_replace('\\', '/', public_path('assets/img/mitra/'));
+            if ($loker->banner !== 'banner-default.jpg') {
+            // MOVE IF GAMBAR TIDAK SAMA DENGAN DEFAULT
+                unlink($link. $loker->banner);
+            }
+        }else{
+            $fullFileBanner = $loker->banner;
         }
 
         // LOKER UPDATE
         $loker->update([
+            'jurusan_id'        => $request->jurusan,
+            'kantor_id'         => $request->kantor,
             'title'             => $request->title,
             'kategori'          => $request->kategori,
             'kedaluwarsa'       => $request->kedaluwarsa,
             'posisi'            => $request->posisi,
             'kuota'             => $request->kuota,
             'gaji'              => $request->gaji,
-            'lokasi_kerja'      => $request->lokasi_kerja,
             'deskripsi'         => $request->deskripsi,
             'jenis_pekerjaan'   => $request->jenis_pekerjaan,
-            'banner'            => $loker->banner,
+            'banner'            => $fullFileBanner,
             'status'            => $status,
         ]);
 
 
         // SAVING IMAGE AND MAKING NAME
         $fotos = $request->file('fotos');
-        $old_foto = Galeri::where('lowongankerja_id', '=', $loker->id)->get()->toArray();
+        $old_foto = Galeri::where('lowongankerja_id', '=', $loker->id_lowongankerja)->get()->toArray();
         $old_fotos = $request->old_fotos;
         $id_fotos = $request->id_fotos;
 
@@ -394,20 +428,20 @@ class LokerController extends Controller
                     $fullFileName = $fileName . "-" . time() . Str::random(5) . "." . $old_fotos[$key]->getClientOriginalExtension();
 
                     // SAVE IMAGE
-                    Galeri::findOrFail($oldfoto['id'])->update([
+                    Galeri::findOrFail($oldfoto['id_galeri'])->update([
                         'foto'              => $fullFileName,
                         'keterangan'        => 'Mengubah Foto'
                     ]);
                     // DELETE OLD IMAGE
-                    $link = str_replace('\\', '/', public_path('assets/img/'));
+                    $link = str_replace('\\', '/', public_path('assets/img/galeri/'));
                     unlink($link. $oldfoto['foto']);
                     // MOVE IMAGE TO DIR
-                    $old_fotos[$key]->move(public_path('/assets/img'), $fullFileName);
+                    $old_fotos[$key]->move(public_path('/assets/img/galeri'), $fullFileName);
                 }
             }else{
                 // GET IMAGE AND DELETe
                 Galeri::findOrFail($id_fotos[$key])->delete();
-                $link = str_replace('\\', '/', public_path('assets/img/'));
+                $link = str_replace('\\', '/', public_path('assets/img/galeri/'));
                 // DELETE FROM LOCAL STORAGE
                 unlink($link. $oldfoto['foto']);
             }
@@ -423,13 +457,13 @@ class LokerController extends Controller
 
                 // CREATE IMAGE
                 $galeriNew = Galeri::create([
-                    'lowongankerja_id'  => $loker->id,
+                    'lowongankerja_id'  => $loker->id_lowongankerja,
                     'foto'              => $fullFileName,
                     'keterangan'        => 'Membuat Foto'
                 ]);
 
                 // MOVE IMAGE TO DIR
-                $foto->move(public_path('/assets/img'), $fullFileName);
+                $foto->move(public_path('/assets/img/galeri'), $fullFileName);
             }
         }
         $galeriNew = 'Tidak Bertambah';
@@ -437,23 +471,24 @@ class LokerController extends Controller
         // SAVING PERSYARATAN
         $req = $request->req;
         $id_req = $request->id_req;
-        $old_req = Requirement::where('lowongankerja_id', '=', $loker->id)->get()->toArray();
+        $old_req = Requirement::where('lowongankerja_id', $loker->id_lowongankerja)->get()->toArray();
 
+        // dd($req, $id);
         foreach ($req as $key => $data) {
             // UPDATE
-            if ($data && isset($id_req[$key]) && $old_req[$key]['text'] !== $data && $old_req[$key]['id'] == intval($id_req[$key])) {
-                Requirement::findOrFail($old_req[$key]['id'])->update([
+            if ($data && isset($id_req[$key]) && $old_req[$key]['text'] !== $data && $old_req[$key]['id_persyaratan'] == intval($id_req[$key])) {
+                Requirement::findOrFail($old_req[$key]['id_persyaratan'])->update([
                     'text'              => $data,
                 ]);
             }elseif ($data && !isset($id_req[$key])) {
                 // CREATE
                 $requirement = Requirement::create([
-                    'lowongankerja_id'  => $loker->id,
+                    'lowongankerja_id'  => $loker->id_lowongankerja,
                     'text'              => $data,
                 ]);
             }elseif ($data == null && isset($id_req[$key])){
                 // DELETE
-                Requirement::findOrFail($old_req[$key]['id'])->delete();
+                Requirement::findOrFail($old_req[$key]['id_persyaratan'])->delete();
             }
             $requirementOld = 'Tidak Berubah';
         }
@@ -463,7 +498,7 @@ class LokerController extends Controller
         $nama = $request->namasec;
         $date = $request->datesec;
         $id_tahap = $request->id_tahap;
-        $old_tahap = Tahap::where('lowongankerja_id', '=', $loker->id)->get()->toArray();
+        $old_tahap = Tahap::where('lowongankerja_id', $loker->id_lowongankerja)->get()->toArray();
 
         $ambilTahap = substr($kodetahap, 3);
         $ambilTahap = str_pad($ambilTahap, 5, 0, STR_PAD_LEFT);
@@ -475,8 +510,8 @@ class LokerController extends Controller
                 // MEMBUAT KODE BARU
                 $kodetahapbaru = 'THP' . str_pad($ambilTahap - 1, 5, 0, STR_PAD_LEFT);
                 $tahapan = Tahap::create([
-                    'id'                => $kodetahapbaru,
-                    'lowongankerja_id'  => $loker->id,
+                    'id_tahap'          => $kodetahapbaru,
+                    'lowongankerja_id'  => $loker->id_lowongankerja,
                     'tahap_ke'          => $val,
                     'nama'              => $nama[$i],
                     'tanggal_seleksi'   => $date[$i],
@@ -485,7 +520,7 @@ class LokerController extends Controller
             }
 
             if (isset($id_tahap[$i])) {
-                if ($val && $nama[$i] && $date[$i] && isset($id_tahap[$i]) == $old_tahap[$i]['id']) {
+                if ($val && $nama[$i] && $date[$i] && isset($id_tahap[$i]) == $old_tahap[$i]['id_tahap']) {
                     // UPDATE
                     if ($val !== $old_tahap[$i]['tahap_ke'] || $nama[$i] !== $old_tahap[$i]['nama'] || $date[$i] !== $old_tahap[$i]['tanggal_seleksi']) {
                         # update
@@ -496,7 +531,7 @@ class LokerController extends Controller
                             'keterangan'        => 'Ini adalah tahapan ke '. $val .' yang akan dilakukan pada '. $date[$i],
                         ]);
                     }
-                }elseif(isset($id_tahap[$i]) == $old_tahap[$i]['id'] && $val == null && $nama[$i] == null  && $date[$i] == null) {
+                }elseif(isset($id_tahap[$i]) == $old_tahap[$i]['id_tahap'] && $val == null && $nama[$i] == null  && $date[$i] == null) {
                     // DELETE
                     $tahapan = Tahap::findOrFail($id_tahap[$i])->delete();
                 }
@@ -508,7 +543,7 @@ class LokerController extends Controller
 
         if($loker){
             //redirect dengan pesan sukses
-            return redirect()->route('daftar')->with(['success' => 'Data Berhasil Diperbarui!']);
+            return redirect()->route('mitra.main.loker')->with(['success' => 'Data Berhasil Diperbarui!']);
         }else{
             //redirect dengan pesan error
             return redirect()->back()->withErrors(['error' => 'Data Gagal Diperbarui!']);

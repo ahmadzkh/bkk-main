@@ -1,6 +1,6 @@
 @extends('templates.main')
 
-@section('titlepage', 'Ubah Profil | Mitra')
+@section('title', 'BKK 1 | Ubah Profile')
 
 @section('css')
     <link rel="stylesheet" href="/assets/css/style.css">

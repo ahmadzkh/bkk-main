@@ -109,7 +109,7 @@
                 <div class="header d-flex align-items-center position-relative">
                     <div
                         class="img overflow-hidden position-absolute rounded-circle d-flex justify-content-center align-items-center">
-                        <img src="{{ $urlImg.$mitra->foto }}" width="200px">
+                        <img src="{{ $urlImg.$mitra->foto }}" width="200px" draggable="false">
                     </div>
                 </div>
                 <div class="content py-3 px-lg-5 px-3">
