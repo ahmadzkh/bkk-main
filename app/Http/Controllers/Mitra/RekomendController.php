@@ -39,8 +39,6 @@ class RekomendController extends Controller
             $alumniJur[] = Alumni::where('id', $val->id_alumni)->get();
         }
 
-        // dd($alumniJur, $jurusanNam);
-
         $data = [
             'title' => 'rekomend',
             'loker' => $loker,
